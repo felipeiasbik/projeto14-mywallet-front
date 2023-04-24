@@ -4,6 +4,9 @@ import HomePage from "./pages/HomePage"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import TransactionsPage from "./pages/TransactionPage"
+import axios from "axios"
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 export default function App() {
   return (
