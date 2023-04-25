@@ -24,12 +24,15 @@ export default function HomePage() {
       })
   }
 
+  function handleLogout(){
+    localStorage.removeItem("user");
+  }
 
   return (
     <HomeContainer>
       <Header>
         <h1>Olá, {name}</h1>
-        <BiExit />
+        <Link to="/" onClick={handleLogout}><Logout><BiExit /></Logout></Link>
       </Header>
 
       <TransactionsContainer>
@@ -67,6 +70,14 @@ export default function HomePage() {
     </HomeContainer>
   )
 }
+
+const Logout = styled.div`
+  font-weight: 700;
+  font-size: 26px;
+  display: flex;
+  margin-bottom: 15px;
+  margin-top: -15px;
+`
 
 const HomeContainer = styled.div`
   display: flex;
