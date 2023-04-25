@@ -31,14 +31,14 @@ export default function TransactionsPage() {
         alert(`Erro: ${err.response.data}`)
       })
   }
-
+  console.log(tipo)
   return (
     <TransactionsContainer>
-      <h1>Nova TRANSAÇÃO</h1>
+      <h1>Nova {tipo === ":input" ? "entrada" : "saída"}</h1>
       <form onSubmit={postTransaction}>
         <input placeholder="Valor" name="value" value={form.value} onChange={handleForm} type="text" required/>
         <input placeholder="Descrição" name="description" value={form.description} onChange={handleForm} type="text" required/>
-        <button type="submit">Salvar TRANSAÇÃO</button>
+        <button type="submit">Salvar {tipo === ":input" ? "entrada" : "saída"}</button>
       </form>
     </TransactionsContainer>
   )

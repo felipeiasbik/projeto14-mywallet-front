@@ -35,7 +35,7 @@ export default function HomePage() {
 
       <TransactionsContainer>
         <ul>
-          {transaction.map(t => (
+          {!transaction[0] ? <TextCenter>Não há registros de entrada ou saída</TextCenter> : transaction.map(t => (
           <ListItemContainer key={t._id}>
             <div>
               <span>{t.date}</span>
@@ -55,28 +55,38 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button>
-          <AiOutlinePlusCircle />
-          <Link to={"/nova-transacao/:input"}><p>Nova <br /> entrada</p></Link>
-        </button>
-        <button>
-          <AiOutlineMinusCircle />
-          <Link to={"/nova-transacao/:output"}><p>Nova <br />saída</p></Link>
-        </button>
+        <StyledLink to={"/nova-transacao/:input"}>
+          <button>
+            <AiOutlinePlusCircle />
+            <p>Nova <br /> entrada</p>
+          </button>
+        </StyledLink>
+        <StyledLink to={"/nova-transacao/:output"}>
+          <button>
+            <AiOutlineMinusCircle />
+            <p>Nova <br />saída</p>
+          </button>
+        </StyledLink>
       </ButtonsContainer>
 
     </HomeContainer>
   )
 }
-
+const TextCenter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 20px;
+  font-weight: 400;
+  color: #868686;
+  text-align: center;
+`
 const Logout = styled.div`
   font-weight: 700;
   font-size: 26px;
   display: flex;
-  margin-bottom: 15px;
-  margin-top: -15px;
 `
-
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -123,30 +133,51 @@ const ButtonsContainer = styled.section`
   gap: 15px;
   
   button {
+    padding: 0px;
     width: 50%;
     height: 115px;
-    font-size: 22px;
+    font-size: 26px;
     text-align: left;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     p {
-      font-size: 18px;
+      font-size: 22px;
     }
   }
+`
+const StyledLink = styled(Link)`
+
+outline: none;
+border: none;
+border-radius: 5px;
+background-color: #a328d6;
+font-weight: 600;
+color: #fff;
+cursor: pointer;
+padding: 12px;
+width: 50%;
+height: 115px;
+font-size: 22px;
+text-align: left;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
 `
 const Value = styled.div`
   font-size: 16px;
   text-align: right;
-  color: ${(props) => (props.color === "positivo" ? "green" : "red")};
+  color: ${(props) => (props.color === "positivo" ? "#03AC00" : "#C70000")};
 `
 const ListItemContainer = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   color: #000000;
   margin-right: 10px;
+  font-size: 16px;
+  font-weight: 400;
   div span {
     color: #c6c6c6;
     margin-right: 10px;

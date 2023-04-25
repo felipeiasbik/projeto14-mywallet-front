@@ -59,6 +59,6 @@ const SingInContainer = styled.section`
   justify-content: center;
   align-items: center;
   button{
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 `
