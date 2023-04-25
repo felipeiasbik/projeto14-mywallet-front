@@ -1,26 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MyWalletLogo from "../components/MyWalletLogo";
-import axios from "axios";
 import { useState } from "react";
+import apiAuth from "../services/apiAuth";
 
 export default function SignUpPage() {
 
-  const [name,setName] = useState("");
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
-  const [password2,setPassword2] = useState("");
+  const [form, setForm] = useState({name: "", email: "", password: "", password2: ""})
   const navigate = useNavigate();
+
+  function handleForm(e){
+    setForm({...form, [e.target.name]: e.target.value})
+  }
 
   function signUp(e){
 
     e.preventDefault();
 
-    if (password !== password2) return alert('As senhas não conferem!');
+    if (form.password !== form.password2) return alert('As senhas não conferem!');
 
-    const body = {name, email, password};
+    const body = {name: form.name, email: form.email, password: form.password};
 
-    axios.post("/cadastro" , body)
+    apiAuth.signUp(body)
       .then( res => {
         alert("Cadastro realizado com sucesso!");
         navigate("/");
@@ -34,11 +35,11 @@ export default function SignUpPage() {
     <SingUpContainer>
       <form onSubmit={signUp}>
         <MyWalletLogo />
-        <input placeholder="Nome" value={name} onChange={e => setName(e.target.value)} type="text" required/>
-        <input placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} type="email" required/>
-        <input placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} type="password" autocomplete="new-password" required/>
-        <input placeholder="Confirme a senha" value={password2} onChange={e => setPassword2(e.target.value)} type="password" autocomplete="new-password" required/>
-        <button>Cadastrar</button>
+        <input placeholder="Nome" name="name" value={form.name} onChange={handleForm} type="text" required/>
+        <input placeholder="E-mail" name="email" value={form.email} onChange={handleForm} type="email" required/>
+        <input placeholder="Senha" name="password" value={form.password} onChange={handleForm} type="password" autocomplete="new-password" required/>
+        <input placeholder="Confirme a senha" name="password2" value={form.password2} onChange={handleForm} type="password" autocomplete="new-password" required/>
+        <button type="submit">Cadastrar</button>
       </form>
 
       <Link to={"/"}>

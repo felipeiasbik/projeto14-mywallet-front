@@ -1,23 +1,31 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import MyWalletLogo from "../components/MyWalletLogo";
-import { useState } from "react";
-import axios from "axios";
+import { useContext, useState } from "react";
+import apiAuth from "../services/apiAuth";
+import { UserContext } from "../contexts/UserContext";
 
 export default function SignInPage() {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({email: "", password: ""})
+  const {setUser} = useContext(UserContext);
   const navigate = useNavigate();
+
+  function handleForm(e){
+    setForm({...form, [e.target.name]: e.target.value})
+  }
   
   function signIn(e){
   
     e.preventDefault();
 
-    const body = {email, password};
+    const body = {email: form.email, password: form.password};
 
-    axios.post("/", body)
+    apiAuth.signIn(body)
       .then(res => {
+        const token = res.data;
+        setUser({token})
+        localStorage.setItem("user", JSON.stringify({token}));
         navigate("/home");
       })
       .catch(err => {
@@ -31,9 +39,9 @@ export default function SignInPage() {
     <SingInContainer>
       <form onSubmit={signIn}>
         <MyWalletLogo />
-        <input placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} type="email" required/>
-        <input placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} type="password" autocomplete="new-password" required/>
-        <button>Entrar</button>
+        <input placeholder="E-mail" name="email" value={form.email} onChange={handleForm} type="email" required/>
+        <input placeholder="Senha" name="password" value={form.password} onChange={handleForm} type="password" autocomplete="new-password" required/>
+        <button type="submit">Entrar</button>
       </form>
 
       <Link to={"/cadastro"}>

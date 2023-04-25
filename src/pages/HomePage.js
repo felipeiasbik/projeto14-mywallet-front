@@ -1,37 +1,53 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import apiTransactions from "../services/apiTransactions";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 export default function HomePage() {
+
+  const [ transaction, setTransaction] = useState([]);
+  const {user} = useContext(UserContext);
+  console.log(user.token)
+  useEffect(getList, []);
+
+  function getList(){
+    apiTransactions.homePage(user.token)
+      .then(res => {
+        console.log(res.data);
+        setTransaction(res.data);
+      })
+      .catch(err => {
+        alert(err.message);
+      })
+  }
+
+
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {transaction[0] ? transaction[0].name : "Visitante"}</h1>
         <BiExit />
       </Header>
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
+          {transaction.map(t => (
+          <ListItemContainer key={t._id}>
             <div>
               <span>30/11</span>
-              <strong>Almoço mãe</strong>
+              <strong>{t.description}</strong>
             </div>
-            <Value color={"negativo"}>120,00</Value>
+            <Value color={t.type === "input" ? "positivo" : "negativo"}>{t.value.toFixed(2).replace(".",",")}</Value>
           </ListItemContainer>
 
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          ))}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={transaction[0] && transaction[0].total > 0 ? "positivo" : "negativo"}>{transaction[0] ? transaction[0].total.toFixed(2).replace(".",",") : "0,00"}</Value>
         </article>
       </TransactionsContainer>
 
