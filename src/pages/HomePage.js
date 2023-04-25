@@ -29,7 +29,7 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {name}</h1>
+        <h1>Olá, {!transaction[0] ? name : transaction[0].name}</h1>
         <Link to="/" onClick={handleLogout}><Logout><BiExit /></Logout></Link>
       </Header>
 
