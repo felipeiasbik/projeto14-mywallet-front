@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/UserContext";
 export default function SignInPage() {
 
   const [form, setForm] = useState({email: "", password: ""})
-  const {setUser} = useContext(UserContext);
+  const {setUser,setName} = useContext(UserContext);
   const navigate = useNavigate();
 
   function handleForm(e){
@@ -23,7 +23,8 @@ export default function SignInPage() {
 
     apiAuth.signIn(body)
       .then(res => {
-        const token = res.data;
+        const {token,name} = res.data;
+        setName(name)
         setUser({token})
         localStorage.setItem("user", JSON.stringify({token}));
         navigate("/home");

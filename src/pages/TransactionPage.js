@@ -1,13 +1,46 @@
 import styled from "styled-components"
+import apiTransactions from "../services/apiTransactions";
+import { useContext, useState } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
+
 
 export default function TransactionsPage() {
+
+  const {tipo} = useParams();
+  const [form, setForm] = useState({description: "", value: "", type: tipo})
+  console.log(tipo)
+  const {user} = useContext(UserContext);
+  const navigate = useNavigate();
+
+  function handleForm(e){
+    setForm({...form, [e.target.name]: e.target.value})
+  }
+
+  function postTransaction(e){
+
+    e.preventDefault();
+
+    const body = {description: form.description, value: Number(form.value.replace(",",".")), type: tipo.replace(":","")};
+    console.log(body)
+    apiTransactions.postTransaction(body, user.token)
+      .then( res => {
+        alert("Adicionado com sucesso");
+        navigate("/home");
+      })
+      .catch( err => {
+        console.log(err)
+        alert(`Erro: ${err.response.data}`)
+      })
+  }
+
   return (
     <TransactionsContainer>
       <h1>Nova TRANSAÇÃO</h1>
-      <form>
-        <input placeholder="Valor" type="text"/>
-        <input placeholder="Descrição" type="text" />
-        <button>Salvar TRANSAÇÃO</button>
+      <form onSubmit={postTransaction}>
+        <input placeholder="Valor" name="value" value={form.value} onChange={handleForm} type="text" required/>
+        <input placeholder="Descrição" name="description" value={form.description} onChange={handleForm} type="text" required/>
+        <button type="submit">Salvar TRANSAÇÃO</button>
       </form>
     </TransactionsContainer>
   )

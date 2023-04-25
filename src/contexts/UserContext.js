@@ -5,6 +5,7 @@ export const UserContext = createContext();
 
 export function UserProvider({children}){
     const lsUser = JSON.parse(localStorage.getItem("user"));
+    const [name, setName] = useState("");
     const [user,setUser] = useState(lsUser !== null ? lsUser : {});
     const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ export function UserProvider({children}){
     },[]);
 
     return (
-        <UserContext.Provider value={{user,setUser}}>
+        <UserContext.Provider value={{user,setUser,name,setName}}>
             {children}
         </UserContext.Provider>
     )

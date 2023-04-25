@@ -15,5 +15,10 @@ function homePage(token){
     return promise;
 }
 
-const apiTransactions = { homePage };
+function postTransaction(body, token){
+    const promise = axios.post("/nova-transacao", body, createConfig(token));
+    return promise;
+}
+
+const apiTransactions = { homePage, postTransaction };
 export default apiTransactions;

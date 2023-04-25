@@ -4,12 +4,13 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import apiTransactions from "../services/apiTransactions";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
 
   const [ transaction, setTransaction] = useState([]);
-  const {user} = useContext(UserContext);
-  console.log(user.token)
+  const {user,name} = useContext(UserContext);
+  console.log(user)
   useEffect(getList, []);
 
   function getList(){
@@ -27,7 +28,7 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {transaction[0] ? transaction[0].name : "Visitante"}</h1>
+        <h1>Olá, {name}</h1>
         <BiExit />
       </Header>
 
@@ -36,7 +37,7 @@ export default function HomePage() {
           {transaction.map(t => (
           <ListItemContainer key={t._id}>
             <div>
-              <span>30/11</span>
+              <span>{t.date}</span>
               <strong>{t.description}</strong>
             </div>
             <Value color={t.type === "input" ? "positivo" : "negativo"}>{t.value.toFixed(2).replace(".",",")}</Value>
@@ -55,11 +56,11 @@ export default function HomePage() {
       <ButtonsContainer>
         <button>
           <AiOutlinePlusCircle />
-          <p>Nova <br /> entrada</p>
+          <Link to={"/nova-transacao/:input"}><p>Nova <br /> entrada</p></Link>
         </button>
         <button>
           <AiOutlineMinusCircle />
-          <p>Nova <br />saída</p>
+          <Link to={"/nova-transacao/:output"}><p>Nova <br />saída</p></Link>
         </button>
       </ButtonsContainer>
 
@@ -97,6 +98,13 @@ const TransactionsContainer = styled.article`
       font-weight: 700;
       text-transform: uppercase;
     }
+  }
+  ul {
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    height: calc(72vh - 50px);
+    position: relative;
   }
 `
 const ButtonsContainer = styled.section`
