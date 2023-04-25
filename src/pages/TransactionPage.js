@@ -31,7 +31,7 @@ export default function TransactionsPage() {
         alert(`Erro: ${err.response.data}`)
       })
   }
-  console.log(tipo)
+  
   return (
     <TransactionsContainer>
       <h1>Nova {tipo === ":input" ? "entrada" : "saída"}</h1>
@@ -54,5 +54,7 @@ const TransactionsContainer = styled.main`
   h1 {
     align-self: flex-start;
     margin-bottom: 40px;
+    font-size: 26px;
+    font-weight: 700;
   }
 `

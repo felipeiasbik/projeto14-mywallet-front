@@ -122,7 +122,7 @@ const TransactionsContainer = styled.article`
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    height: calc(72vh - 50px);
+    height: calc(70vh - 50px);
     position: relative;
   }
 `
