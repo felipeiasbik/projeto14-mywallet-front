@@ -10,13 +10,11 @@ export default function HomePage() {
 
   const [ transaction, setTransaction] = useState([]);
   const {user,name} = useContext(UserContext);
-  console.log(user)
   useEffect(getList, []);
 
   function getList(){
     apiTransactions.homePage(user.token)
       .then(res => {
-        console.log(res.data);
         setTransaction(res.data);
       })
       .catch(err => {

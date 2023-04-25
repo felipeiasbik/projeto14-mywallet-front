@@ -37,8 +37,8 @@ export default function SignUpPage() {
         <MyWalletLogo />
         <input placeholder="Nome" name="name" value={form.name} onChange={handleForm} type="text" required/>
         <input placeholder="E-mail" name="email" value={form.email} onChange={handleForm} type="email" required/>
-        <input placeholder="Senha" name="password" value={form.password} onChange={handleForm} type="password" autocomplete="new-password" required/>
-        <input placeholder="Confirme a senha" name="password2" value={form.password2} onChange={handleForm} type="password" autocomplete="new-password" required/>
+        <input placeholder="Senha" name="password" value={form.password} onChange={handleForm} type="password" autoComplete="new-password" required/>
+        <input placeholder="Confirme a senha" name="password2" value={form.password2} onChange={handleForm} type="password" autoComplete="new-password" required/>
         <button type="submit">Cadastrar</button>
       </form>
 

@@ -9,7 +9,6 @@ export default function TransactionsPage() {
 
   const {tipo} = useParams();
   const [form, setForm] = useState({description: "", value: "", type: tipo})
-  console.log(tipo)
   const {user} = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -22,10 +21,9 @@ export default function TransactionsPage() {
     e.preventDefault();
 
     const body = {description: form.description, value: Number(form.value.replace(",",".")), type: tipo.replace(":","")};
-    console.log(body)
+
     apiTransactions.postTransaction(body, user.token)
       .then( res => {
-        alert("Adicionado com sucesso");
         navigate("/home");
       })
       .catch( err => {

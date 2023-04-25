@@ -41,7 +41,7 @@ export default function SignInPage() {
       <form onSubmit={signIn}>
         <MyWalletLogo />
         <input placeholder="E-mail" name="email" value={form.email} onChange={handleForm} type="email" required/>
-        <input placeholder="Senha" name="password" value={form.password} onChange={handleForm} type="password" autocomplete="new-password" required/>
+        <input placeholder="Senha" name="password" value={form.password} onChange={handleForm} type="password" autoComplete="new-password" required/>
         <button type="submit">Entrar</button>
       </form>
 
